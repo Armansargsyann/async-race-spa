@@ -1,12 +1,19 @@
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Layout } from '@/components/ui/Layout';
+import { Garage } from '@/pages/Garage';
+import { Winners } from '@/pages/Winners';
 
 function App() {
-  
-    return (
-    <h1 className="text-3xl font-bold underlineq p-4 bg-blue-500 text-white">
-      Hello world!
-    </h1>
-  )
+  return (
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Garage />} />
+          <Route path="/winners" element={<Winners />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
