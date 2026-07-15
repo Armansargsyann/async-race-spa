@@ -36,7 +36,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
         </header>
 
         <main className="container mx-auto px-10 py-12">
-          <div className="bg-black/40 border border-white/5 p-8 rounded-xl backdrop-blur-md">
+          <div>
             {children || <Outlet />}
           </div>
         </main>
