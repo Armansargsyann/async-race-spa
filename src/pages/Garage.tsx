@@ -2,14 +2,16 @@ import { CarIcon } from "@/components/ui/car-icon";
 import { useGarageStore } from "@/store/useGarageStore";
 import { useEffect, useState } from "react";
 import { Pagination } from "@/components/ui/pagination";
+import { Loader } from "@/components/ui/loader";
 export default function Garage() {
-  const { cars, fetchCars } = useGarageStore();
-const [currentPage, setCurrentPage] = useState(1);
-const carsPerPage = 5;
-const totalPages = Math.ceil(cars.length / carsPerPage);
+  const { cars, fetchCars, isLoading } = useGarageStore();
+  const [currentPage, setCurrentPage] = useState(1);
+  const carsPerPage = 5;
+  const totalPages = Math.ceil(cars.length / carsPerPage);
   useEffect(() => {
     fetchCars();
   }, [fetchCars]);
+  if (isLoading) return <Loader />;
 
   return (
     <div className="min-h-screen p-6 md:p-12 relative">
