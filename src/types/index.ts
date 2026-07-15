@@ -3,3 +3,7 @@ export interface Car {
   name: string;
   color: string;
 }
+export interface CarIconProps {
+  color: string;
+  className?: string;
+}
