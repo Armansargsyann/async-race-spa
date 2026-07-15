@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Winners from '@/pages/Winners';
 import Garage from '@/pages/Garage';
-import { Layout } from '@/components/ui/Layout';
+import { Layout } from '@/components/Layout';
 
 
 function App() {

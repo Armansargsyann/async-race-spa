@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { NeonButton } from "@/components/ui/NeonButton";
 
 export const Layout = ({ children }: { children: ReactNode }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div
       className="min-h-screen w-full bg-cover bg-center bg-no-repeat bg-fixed text-white font-mono"
@@ -23,8 +23,15 @@ export const Layout = ({ children }: { children: ReactNode }) => {
           </div>
 
           <div className="flex gap-6">
-            <NeonButton variant="primary" onClick={() => navigate("/")}>Garage</NeonButton>
-            <NeonButton variant="secondary" onClick={() => navigate("/winners")}>Winners</NeonButton>
+            <NeonButton variant="primary" onClick={() => navigate("/")}>
+              Garage
+            </NeonButton>
+            <NeonButton
+              variant="secondary"
+              onClick={() => navigate("/winners")}
+            >
+              Winners
+            </NeonButton>
           </div>
         </header>
 
