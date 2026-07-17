@@ -5,17 +5,22 @@ export const CarCard = ({
   car,
   position = 0,
   onSelect,
+  isSelected,
   onRemove,
 }: CarCardProps) => {
   return (
-    <div className="flex items-center gap-4 py-2 border-b border-white/5 group hover:bg-white/5 transition-all">
+    <div
+      className={`flex items-center gap-4 py-2 border-b transition-all ${
+        isSelected ? "border-cyan-400 bg-cyan-950/20" : "border-white/5"
+      }`}
+    >
       <div className="flex flex-col gap-1 w-24">
         <NeonButton
-          variant="primary"
+          variant={isSelected ? "secondary" : "primary"}
           className="!px-2 !py-1 text-[10px]"
           onClick={() => onSelect(car.id)}
         >
-          SELECT
+          {isSelected ? "SELECTED" : "SELECT"}
         </NeonButton>
         <NeonButton
           variant="danger"
@@ -36,11 +41,15 @@ export const CarCard = ({
         ></div>
 
         <div
-          className="absolute transition-all duration-[1000ms] ease-out z-10"
+          className="absolute transition-all duration-[1000ms] ease-out z-10 flex items-center gap-2"
           style={{ left: `${position}%` }}
         >
           <CarIcon color={car.color} className="w-12 h-12" />
-          <span className="text-white font-mono text-sm uppercase whitespace-nowrap bg-black/50 px-2 py-0.5 rounded">
+          <span
+            className={`font-mono text-sm uppercase whitespace-nowrap px-2 py-0.5 rounded ${
+              isSelected ? "bg-cyan-500 text-black" : "bg-black/50 text-white"
+            }`}
+          >
             {car.name}
           </span>
         </div>

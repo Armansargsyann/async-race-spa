@@ -11,6 +11,7 @@ export interface CarIconProps {
 export interface CarCardProps {
   car: Car;
   position?: number;
+  isSelected?: boolean;
   onSelect: (id: number) => void;
   onRemove: (id: number) => void;
 }

@@ -6,12 +6,17 @@ interface GarageStore {
   isLoading: boolean;
   fetchCars: () => Promise<void>;
   createCar: (name: string, color: string) => Promise<Car>;
+  selectedCarId?: number | null;
+  selectCar: (id: number | null) => void;
 }
 
 export const useGarageStore = create<GarageStore>((set) => ({
   cars: [],
   isLoading: false,
-
+  selectedCarId: null,
+  selectCar: (id) => set((state) => ({ 
+  selectedCarId: state.selectedCarId === id ? null : id 
+})),
   fetchCars: async () => {
     set({ isLoading: true });
     try {
