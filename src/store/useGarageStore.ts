@@ -1,6 +1,7 @@
-import { create } from 'zustand';
-import { GarageService } from '@/app/garage'; 
-import type { Car } from '@/types/index'; 
+import { create } from "zustand";
+import { GarageService } from "@/app/garage";
+import type { Car } from "@/types/index";
+import { CAR_MODELS } from "@/utils/constant";
 interface GarageStore {
   cars: Car[];
   isLoading: boolean;
@@ -8,17 +9,49 @@ interface GarageStore {
   createCar: (name: string, color: string) => Promise<Car>;
   selectedCarId?: number | null;
   selectCar: (id: number | null) => void;
-  updateCar: (id: number, updatedData: { name: string; color: string }) => Promise<void>;
+  updateCar: (
+    id: number,
+    updatedData: { name: string; color: string },
+  ) => Promise<void>;
   removeCar: (id: number) => Promise<void>;
+  generateCars: () => Promise<void>;
 }
 
 export const useGarageStore = create<GarageStore>((set) => ({
   cars: [],
   isLoading: false,
   selectedCarId: null,
-  selectCar: (id) => set((state) => ({ 
-  selectedCarId: state.selectedCarId === id ? null : id 
-})),
+
+  selectCar: (id) =>
+    set((state) => ({
+      selectedCarId: state.selectedCarId === id ? null : id,
+    })),
+
+  generateCars: async () => {
+    set({ isLoading: true });
+    try {
+      const promises = Array.from({ length: 100 }, async () => {
+        const randomName =
+          CAR_MODELS[Math.floor(Math.random() * CAR_MODELS.length)];
+        const randomColor = `#${Math.floor(Math.random() * 16777215)
+          .toString(16)
+          .padStart(6, "0")}`;
+
+        return GarageService.CreateCar(randomName, randomColor);
+      });
+
+      const newCars = await Promise.all(promises);
+
+      set((state) => ({
+        cars: [...state.cars, ...newCars],
+        isLoading: false,
+      }));
+    } catch (error) {
+      console.error("Failed to generate cars:", error);
+      set({ isLoading: false });
+    }
+  },
+
   fetchCars: async () => {
     set({ isLoading: true });
     try {
@@ -29,6 +62,7 @@ export const useGarageStore = create<GarageStore>((set) => ({
       set({ isLoading: false });
     }
   },
+
   createCar: async (name: string, color: string) => {
     try {
       const newCar = await GarageService.CreateCar(name, color);
@@ -39,9 +73,17 @@ export const useGarageStore = create<GarageStore>((set) => ({
       throw error;
     }
   },
-  updateCar: async (id: number, updatedData: { name: string; color: string }) => {
+
+  updateCar: async (
+    id: number,
+    updatedData: { name: string; color: string },
+  ) => {
     try {
-      const updatedCar = await GarageService.UpdateCar(id, updatedData.name, updatedData.color);
+      const updatedCar = await GarageService.UpdateCar(
+        id,
+        updatedData.name,
+        updatedData.color,
+      );
       set((state) => ({
         cars: state.cars.map((car) => (car.id === id ? updatedCar : car)),
       }));
@@ -50,13 +92,14 @@ export const useGarageStore = create<GarageStore>((set) => ({
       console.error("Failed to update car:", error);
       throw error;
     }
-  },  
+  },
+
   removeCar: async (id: number) => {
     try {
       await GarageService.DeleteCar(id);
-      set((state) => ({ 
+      set((state) => ({
         cars: state.cars.filter((car) => car.id !== id),
-        selectedCarId: state.selectedCarId === id ? null : state.selectedCarId 
+        selectedCarId: state.selectedCarId === id ? null : state.selectedCarId,
       }));
     } catch (error) {
       console.error("Failed to remove car:", error);
