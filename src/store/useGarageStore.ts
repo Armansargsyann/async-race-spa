@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { GarageService } from "@/app/garage";
 import type { Car } from "@/types/index";
 import { CAR_MODELS } from "@/utils/constant";
+import { EngineService } from "@/app/engine";
 interface GarageStore {
   cars: Car[];
   isLoading: boolean;
@@ -104,6 +105,26 @@ export const useGarageStore = create<GarageStore>((set) => ({
     } catch (error) {
       console.error("Failed to remove car:", error);
       throw error;
+    }
+  },
+  startCar: async (id: number) => {
+    try {
+      const { velocity, distance } = await EngineService.startEngine(id);
+      console.log(`Car ${id} started: v=${velocity}, d=${distance}`);
+      
+     
+      await EngineService.driveEngine(id);
+    } catch (error) {
+      console.error("Failed to start engine:", error);
+    }
+  },
+
+  stopCar: async (id: number) => {
+    try {
+      await EngineService.stopEngine(id);
+      console.log(`Car ${id} stopped and reset.`);
+    } catch (error) {
+      console.error("Failed to stop engine:", error);
     }
   },
 }));
