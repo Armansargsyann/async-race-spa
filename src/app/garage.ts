@@ -19,4 +19,13 @@ export const GarageService = {
       throw error;
     }
   },
+  UpdateCar: async (id: number, name: string, color: string) => {
+    try {
+      const response = await axiosInstance.put(`/garage/${id}`, { name, color });
+      return response.data;
+    } catch (error) {
+      console.error("Error updating car:", error);
+      throw error;
+    }
+  },
 };

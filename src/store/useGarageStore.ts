@@ -36,5 +36,17 @@ export const useGarageStore = create<GarageStore>((set) => ({
       console.error("Failed to create car:", error);
       throw error;
     }
-  }
+  },
+  updateCar: async (id: number, name: string, color: string) => {
+    try {
+      const updatedCar = await GarageService.UpdateCar(id, name, color);
+      set((state) => ({
+        cars: state.cars.map((car) => (car.id === id ? updatedCar : car)),
+      }));
+      return updatedCar;
+    } catch (error) {
+      console.error("Failed to update car:", error);
+      throw error;
+    }
+  },  
 }));
