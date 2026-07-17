@@ -1,13 +1,17 @@
 import type { CarCardProps } from "@/types";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { CarIcon } from "@/components/ui/car-icon";
+import { useGarageStore } from "@/store/useGarageStore";
+
 export const CarCard = ({
   car,
-  position = 0,
   onSelect,
   isSelected,
   onRemove,
-}: CarCardProps) => {
+}: Omit<CarCardProps, 'position'>) => {
+  const { startCar, stopCar, carPositions } = useGarageStore();
+  const position = carPositions[car.id] || 0;
+
   return (
     <div
       className={`flex items-center gap-4 py-2 border-b transition-all ${
@@ -30,10 +34,11 @@ export const CarCard = ({
           Remove
         </NeonButton>
       </div>
-       <div className="flex flex-col gap-1 w-16">
-        <NeonButton variant="primary">A</NeonButton>
-        <NeonButton variant="secondary">B</NeonButton>
-       </div>
+
+      <div className="flex flex-col gap-1 w-16">
+        <NeonButton variant="primary" onClick={() => startCar(car.id)}>A</NeonButton>
+        <NeonButton variant="secondary" onClick={() => stopCar(car.id)}>B</NeonButton>
+      </div>
 
       <div className="flex-grow relative h-16 bg-black/40 border border-white/5 rounded-sm overflow-hidden flex items-center">
         <div

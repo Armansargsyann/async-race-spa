@@ -59,7 +59,6 @@ export default function Garage() {
           <CarCard
             key={car.id}
             car={car}
-            position={0}
             isSelected={selectedCarId === car.id}
             onSelect={() => selectCar(car.id)}
             onRemove={(id) => removeCar(id)}
