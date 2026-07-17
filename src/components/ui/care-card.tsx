@@ -30,6 +30,10 @@ export const CarCard = ({
           Remove
         </NeonButton>
       </div>
+       <div className="flex flex-col gap-1 w-16">
+        <NeonButton variant="primary">A</NeonButton>
+        <NeonButton variant="secondary">B</NeonButton>
+       </div>
 
       <div className="flex-grow relative h-16 bg-black/40 border border-white/5 rounded-sm overflow-hidden flex items-center">
         <div
