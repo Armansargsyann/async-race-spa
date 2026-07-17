@@ -9,6 +9,7 @@ interface GarageStore {
   selectedCarId?: number | null;
   selectCar: (id: number | null) => void;
   updateCar: (id: number, updatedData: { name: string; color: string }) => Promise<void>;
+  removeCar: (id: number) => Promise<void>;
 }
 
 export const useGarageStore = create<GarageStore>((set) => ({
@@ -50,4 +51,16 @@ export const useGarageStore = create<GarageStore>((set) => ({
       throw error;
     }
   },  
+  removeCar: async (id: number) => {
+    try {
+      await GarageService.DeleteCar(id);
+      set((state) => ({ 
+        cars: state.cars.filter((car) => car.id !== id),
+        selectedCarId: state.selectedCarId === id ? null : state.selectedCarId 
+      }));
+    } catch (error) {
+      console.error("Failed to remove car:", error);
+      throw error;
+    }
+  },
 }));

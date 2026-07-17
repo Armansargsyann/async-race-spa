@@ -28,4 +28,14 @@ export const GarageService = {
       throw error;
     }
   },
-};
+  DeleteCar: async (id: number) => {
+    try {
+      await axiosInstance.delete(`/garage/${id}`);
+    } catch (error) {
+      console.error("Error deleting car:", error);
+      throw error;
+    }
+  },
+}
+
+

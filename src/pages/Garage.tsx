@@ -6,7 +6,8 @@ import { CarForm } from "@/components/createCarFormUI";
 import { CarCard } from "@/components/ui/care-card";
 
 export default function Garage() {
-  const { cars, fetchCars, isLoading, selectCar, selectedCarId } = useGarageStore();
+  const { cars, fetchCars, isLoading, selectCar, selectedCarId, removeCar } =
+    useGarageStore();
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 5;
   const totalPages = Math.ceil(cars.length / carsPerPage);
@@ -45,8 +46,8 @@ export default function Garage() {
             car={car}
             position={0}
             isSelected={selectedCarId === car.id}
-            onSelect={() => selectCar(car.id) }
-            onRemove={(id) => console.log("Remove", id)}
+            onSelect={() => selectCar(car.id)}
+            onRemove={(id) => removeCar(id)}
           />
         ))}
       </div>
