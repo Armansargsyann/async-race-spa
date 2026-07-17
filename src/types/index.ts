@@ -14,3 +14,7 @@ export interface CarCardProps {
   onSelect: (id: number) => void;
   onRemove: (id: number) => void;
 }
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;}
