@@ -40,6 +40,9 @@ export const CarCard = ({
           style={{ left: `${position}%` }}
         >
           <CarIcon color={car.color} className="w-12 h-12" />
+          <span className="text-white font-mono text-sm uppercase whitespace-nowrap bg-black/50 px-2 py-0.5 rounded">
+            {car.name}
+          </span>
         </div>
 
         <div className="absolute right-0 h-full w-2 bg-yellow-500/30 border-l border-yellow-500/50"></div>
