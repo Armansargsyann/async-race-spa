@@ -18,4 +18,14 @@ export interface CarCardProps {
 export interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;}
+  onPageChange: (page: number) => void;
+}
+
+export interface EngineResponse {
+  velocity: number;
+  distance: number;
+}
+
+export interface DriveResponse {
+  success: boolean;
+}
