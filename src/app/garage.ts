@@ -10,14 +10,13 @@ export const GarageService = {
       throw error;
     }
   },
-};
-
-export const CreateCar = async (name: string, color: string) => {
-  try {
-    const response = await axiosInstance.post("/garage", { name, color });
-    return response.data;
-  } catch (error) {
-    console.error("Error creating car:", error);
-    throw error;
-  }
+  CreateCar: async (name: string, color: string) => {
+    try {
+      const response = await axiosInstance.post('/garage', { name, color });
+      return response.data;
+    } catch (error) {
+      console.error("Error creating car:", error);
+      throw error;
+    }
+  },
 };
