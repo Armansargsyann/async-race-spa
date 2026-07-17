@@ -1,9 +1,9 @@
-import { CarIcon } from "@/components/ui/car-icon";
 import { useGarageStore } from "@/store/useGarageStore";
 import { useEffect, useState } from "react";
 import { Pagination } from "@/components/ui/pagination";
 import { Loader } from "@/components/ui/loader";
 import { CreateCarForm } from "@/components/createCarFormUI";
+import { CarCard } from "@/components/ui/care-card";
 
 export default function Garage() {
   const { cars, fetchCars, isLoading } = useGarageStore();
@@ -40,21 +40,16 @@ export default function Garage() {
 
       <div className="ml-24 mr-24 flex flex-col">
         {cars.map((car) => (
-          <div
+          <CarCard
             key={car.id}
-            className="flex items-center h-24 border-b border-white/10 relative group"
-          >
-            <div className="absolute left-0">
-              <CarIcon color={car.color} className="w-16 h-16" />
-            </div>
-
-            <h3 className="ml-24 text-xl font-mono text-white/70 uppercase tracking-widest">
-              {car.name}
-            </h3>
-          </div>
+            car={car}
+            position={0}
+            onSelect={(id) => console.log("Select", id)}
+            onRemove={(id) => console.log("Remove", id)}
+          />
         ))}
       </div>
-      
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
