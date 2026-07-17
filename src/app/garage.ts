@@ -1,4 +1,4 @@
-import axiosInstance from "./axios-config";
+import axiosInstance from "@/app/axios-config";
 
 export const GarageService = {
   getCars: async (page: number = 1, limit: number = 10) => {

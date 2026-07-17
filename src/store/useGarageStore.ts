@@ -16,6 +16,8 @@ interface GarageStore {
   ) => Promise<void>;
   removeCar: (id: number) => Promise<void>;
   generateCars: () => Promise<void>;
+  startCar: (id: number) => Promise<void>;
+  stopCar: (id: number) => Promise<void>;
 }
 
 export const useGarageStore = create<GarageStore>((set) => ({
