@@ -5,7 +5,7 @@ interface GarageStore {
   cars: Car[];
   isLoading: boolean;
   fetchCars: () => Promise<void>;
-  
+  createCar: (name: string, color: string) => Promise<Car>;
 }
 
 export const useGarageStore = create<GarageStore>((set) => ({
@@ -22,4 +22,14 @@ export const useGarageStore = create<GarageStore>((set) => ({
       set({ isLoading: false });
     }
   },
+  createCar: async (name: string, color: string) => {
+    try {
+      const newCar = await GarageService.CreateCar(name, color);
+      set((state) => ({ cars: [...state.cars, newCar] }));
+      return newCar;
+    } catch (error) {
+      console.error("Failed to create car:", error);
+      throw error;
+    }
+  }
 }));
