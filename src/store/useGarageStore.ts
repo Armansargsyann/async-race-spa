@@ -8,6 +8,7 @@ interface GarageStore {
   createCar: (name: string, color: string) => Promise<Car>;
   selectedCarId?: number | null;
   selectCar: (id: number | null) => void;
+  updateCar: (id: number, updatedData: { name: string; color: string }) => Promise<void>;
 }
 
 export const useGarageStore = create<GarageStore>((set) => ({
@@ -37,9 +38,9 @@ export const useGarageStore = create<GarageStore>((set) => ({
       throw error;
     }
   },
-  updateCar: async (id: number, name: string, color: string) => {
+  updateCar: async (id: number, updatedData: { name: string; color: string }) => {
     try {
-      const updatedCar = await GarageService.UpdateCar(id, name, color);
+      const updatedCar = await GarageService.UpdateCar(id, updatedData.name, updatedData.color);
       set((state) => ({
         cars: state.cars.map((car) => (car.id === id ? updatedCar : car)),
       }));

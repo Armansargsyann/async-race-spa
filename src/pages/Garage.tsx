@@ -2,7 +2,7 @@ import { useGarageStore } from "@/store/useGarageStore";
 import { useEffect, useState } from "react";
 import { Pagination } from "@/components/ui/pagination";
 import { Loader } from "@/components/ui/loader";
-import { CreateCarForm } from "@/components/createCarFormUI";
+import { CarForm } from "@/components/createCarFormUI";
 import { CarCard } from "@/components/ui/care-card";
 
 export default function Garage() {
@@ -23,7 +23,7 @@ export default function Garage() {
         <h2 className="text-cyan-400 font-mono text-sm mb-4 uppercase tracking-widest">
           // System: Register New Unit
         </h2>
-        <CreateCarForm />
+        <CarForm />
       </div>
 
       <div className="absolute left-6 top-0 bottom-0 w-16 border-r-4 border-white/20 flex flex-col items-center justify-center">

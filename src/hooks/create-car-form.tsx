@@ -1,7 +1,10 @@
+import type { Car } from "@/types";
 import { useState } from "react";
 
-export const useCreateCarForm = (
-  createCar: (name: string, color: string) => Promise<void>,
+export const useCarForm = (
+  createCar: (name: string, color: string) => Promise<Car | void>,
+ updateCar: (id: number, data: { name: string; color: string }) => Promise<Car | void>,
+  selectedCarId: number | null
 ) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -15,10 +18,14 @@ export const useCreateCarForm = (
 
     if (name?.trim() && color) {
       try {
-        await createCar(name, color);
+        if (selectedCarId) {
+         await updateCar(selectedCarId, { name, color });
+        } else {
+          await createCar(name, color);
+        }
         event.currentTarget.reset();
       } catch (error) {
-        console.error("System Error: Failed to deploy unit:", error);
+        console.error("System Error: Failed to perform operation:", error);
       } finally {
         setIsSubmitting(false);
       }
