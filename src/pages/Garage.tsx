@@ -5,11 +5,16 @@ import { Loader } from "@/components/ui/loader";
 import { CarForm } from "@/components/createCarFormUI";
 import { CarCard } from "@/components/ui/care-card";
 import { NeonButton } from "@/components/ui/NeonButton";
+
 export default function Garage() {
   const { cars, fetchCars, isLoading, selectCar, selectedCarId, removeCar, generateCars } =
     useGarageStore();
   const [currentPage, setCurrentPage] = useState(1);
-  const carsPerPage = 5;
+  const carsPerPage = 10;
+
+  const indexOfLastCar = currentPage * carsPerPage;
+  const indexOfFirstCar = indexOfLastCar - carsPerPage;
+  const currentCars = cars.slice(indexOfFirstCar, indexOfLastCar);
   const totalPages = Math.ceil(cars.length / carsPerPage);
 
   useEffect(() => {
@@ -20,15 +25,15 @@ export default function Garage() {
 
   return (
     <div className="min-h-screen p-6 md:p-12 relative">
-    <div className="ml-24 mr-24 mb-12 border border-cyan-400/20 bg-black/40 p-6 backdrop-blur-sm">
+      <div className="ml-24 mr-24 mb-12 border border-cyan-400/20 bg-black/40 p-6 backdrop-blur-sm">
         <h2 className="text-cyan-400 font-mono text-sm mb-4 uppercase tracking-widest">
           // System: Register New Unit
         </h2>
-        
+
         <div className="flex items-center gap-4">
           <CarForm />
-          <NeonButton 
-            variant="primary" 
+          <NeonButton
+            variant="primary"
             onClick={generateCars}
             disabled={isLoading}
           >
@@ -50,7 +55,7 @@ export default function Garage() {
       </div>
 
       <div className="ml-24 mr-24 flex flex-col">
-        {cars.map((car) => (
+        {currentCars.map((car) => (
           <CarCard
             key={car.id}
             car={car}
