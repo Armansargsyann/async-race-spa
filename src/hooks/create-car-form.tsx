@@ -8,7 +8,7 @@ export const useCreateCarForm = (
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
-    
+
     const formData = new FormData(event.currentTarget);
     const name = formData.get("name") as string;
     const color = formData.get("color") as string;
