@@ -7,19 +7,17 @@ import { CarCard } from "@/components/ui/care-card";
 import { NeonButton } from "@/components/ui/NeonButton";
 
 export default function Garage() {
-  const { cars, fetchCars, isLoading, selectCar, selectedCarId, removeCar, generateCars } =
+  const { cars, fetchCars, isLoading, selectCar, selectedCarId, removeCar, generateCars, totalCount } =
     useGarageStore();
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 10;
 
-  const indexOfLastCar = currentPage * carsPerPage;
-  const indexOfFirstCar = indexOfLastCar - carsPerPage;
-  const currentCars = cars.slice(indexOfFirstCar, indexOfLastCar);
-  const totalPages = Math.ceil(cars.length / carsPerPage);
+  const totalPages = Math.max(1, Math.ceil(totalCount / carsPerPage));
+  const activePage = Math.min(currentPage, totalPages);
 
   useEffect(() => {
-    fetchCars();
-  }, [fetchCars]);
+    fetchCars(activePage, carsPerPage);
+  }, [activePage, fetchCars]);
 
   if (isLoading) return <Loader />;
 
@@ -55,7 +53,7 @@ export default function Garage() {
       </div>
 
       <div className="ml-24 mr-24 flex flex-col">
-        {currentCars.map((car) => (
+        {cars.map((car) => (
           <CarCard
             key={car.id}
             car={car}
@@ -67,7 +65,7 @@ export default function Garage() {
       </div>
 
       <Pagination
-        currentPage={currentPage}
+        currentPage={activePage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
       />

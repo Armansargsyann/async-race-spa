@@ -7,7 +7,8 @@ import { AxiosError } from "axios";
 interface GarageStore {
   cars: Car[];
   isLoading: boolean;
-  fetchCars: () => Promise<void>;
+  totalCount: number;
+  fetchCars: (page?: number, limit?: number) => Promise<void>;
   createCar: (name: string, color: string) => Promise<Car>;
   selectedCarId?: number | null;
   selectCar: (id: number | null) => void;
@@ -20,13 +21,14 @@ interface GarageStore {
   startCar: (id: number) => Promise<void>;
   stopCar: (id: number) => Promise<void>;
   carPositions: Record<number, number>;
-  carDurations: Record<number, number>; // Ավելացրու սա
-  updateCarPosition: (id: number, position: number) => void; // Ավելացրու սա
+  carDurations: Record<number, number>; 
+  updateCarPosition: (id: number, position: number) => void; 
 }
 
 export const useGarageStore = create<GarageStore>((set) => ({
   cars: [],
   isLoading: false,
+  totalCount: 0,
   selectedCarId: null,
   carPositions: {},
   carDurations: {},
@@ -43,17 +45,20 @@ export const useGarageStore = create<GarageStore>((set) => ({
   generateCars: async () => {
     set({ isLoading: true });
     try {
-      const promises = Array.from({ length: 100 }, async () => {
-        const randomName =
-          CAR_MODELS[Math.floor(Math.random() * CAR_MODELS.length)];
-        const randomColor = `#${Math.floor(Math.random() * 16777215)
-          .toString(16)
-          .padStart(6, "0")}`;
+      const batchSize = 10; 
+      const totalCars = 100;
+      const newCars : Car[] = [];
 
-        return GarageService.CreateCar(randomName, randomColor);
-      });
+      for (let i = 0; i < totalCars; i += batchSize) {
+        const batch = Array.from({ length: batchSize }, () => {
+          const randomName = CAR_MODELS[Math.floor(Math.random() * CAR_MODELS.length)];
+          const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0")}`;
+          return GarageService.CreateCar(randomName, randomColor);
+        });
 
-      const newCars = await Promise.all(promises);
+        const results = await Promise.all(batch);
+        newCars.push(...results);
+      }
 
       set((state) => ({
         cars: [...state.cars, ...newCars],
@@ -63,13 +68,13 @@ export const useGarageStore = create<GarageStore>((set) => ({
       console.error("Failed to generate cars:", error);
       set({ isLoading: false });
     }
-  },
+},
 
-  fetchCars: async () => {
+  fetchCars: async (page = 1, limit = 10) => {
     set({ isLoading: true });
     try {
-      const data = await GarageService.getCars();
-      set({ cars: data, isLoading: false });
+      const { data, totalCount } = await GarageService.getCars(page, limit);
+      set({ cars: data, totalCount, isLoading: false });
     } catch (error) {
       console.error("Failed to fetch cars:", error);
       set({ isLoading: false });
