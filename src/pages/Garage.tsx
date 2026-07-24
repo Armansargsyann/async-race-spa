@@ -28,16 +28,22 @@ export default function Garage() {
           // System: Register New Unit
         </h2>
 
-        <div className="flex items-center gap-4">
-          <CarForm />
-          <NeonButton
-            variant="primary"
-            onClick={generateCars}
-            disabled={isLoading}
-          >
-            {isLoading ? "Generating..." : "Generate Cars"}
-          </NeonButton>
-        </div>
+        <div className="flex flex-wrap items-center gap-4">
+  <CarForm />
+  
+  <NeonButton className="whitespace-nowrap px-6">
+    Race
+  </NeonButton>
+
+  <NeonButton
+    variant="primary"
+    onClick={generateCars}
+    disabled={isLoading}
+    className="whitespace-nowrap px-6"
+  >
+    {isLoading ? "Generating..." : "Generate Cars"}
+  </NeonButton>
+</div>
       </div>
 
       <div className="absolute left-6 top-0 bottom-0 w-16 border-r-4 border-white/20 flex flex-col items-center justify-center">
