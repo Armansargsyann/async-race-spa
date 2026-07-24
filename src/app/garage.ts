@@ -1,4 +1,5 @@
 import axiosInstance from "@/app/axios-config";
+import { handleError } from "@/utils/handleError";
 
 export const GarageService = {
   getCars: async (page: number = 1, limit: number = 10) => {
@@ -17,8 +18,7 @@ export const GarageService = {
         totalCount,
       };
     } catch (error) {
-      console.error("Error fetching cars:", error);
-      throw error;
+      handleError(error, "Failed to fetch cars");
     }
   },
   CreateCar: async (name: string, color: string) => {
@@ -26,8 +26,7 @@ export const GarageService = {
       const response = await axiosInstance.post('/garage', { name, color });
       return response.data;
     } catch (error) {
-      console.error("Error creating car:", error);
-      throw error;
+      handleError(error, "Failed to create car");
     }
   },
   UpdateCar: async (id: number, name: string, color: string) => {
@@ -35,16 +34,14 @@ export const GarageService = {
       const response = await axiosInstance.put(`/garage/${id}`, { name, color });
       return response.data;
     } catch (error) {
-      console.error("Error updating car:", error);
-      throw error;
+      handleError(error, "Failed to update car");
     }
   },
   DeleteCar: async (id: number) => {
     try {
       await axiosInstance.delete(`/garage/${id}`);
     } catch (error) {
-      console.error("Error deleting car:", error);
-      throw error;
+      handleError(error, "Failed to delete car");
     }
   },
 };

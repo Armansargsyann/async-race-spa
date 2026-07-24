@@ -1,4 +1,5 @@
 import axiosInstance from "@/app/axios-config";
+import { handleError } from "@/utils/handleError";
 
 export const EngineService = {
   startEngine: async (id: number) => {
@@ -8,8 +9,7 @@ export const EngineService = {
       );
       return response.data;
     } catch (error) {
-      console.error("Error starting engine:", error);
-      throw error;
+      handleError(error, "Failed to start engine");
     }
   },
   stopEngine: async (id: number) => {
@@ -19,8 +19,7 @@ export const EngineService = {
       );
       return response.data;
     } catch (error) {
-      console.error("Error stopping engine:", error);
-      throw error;
+      handleError(error, "Failed to stop engine");
     }
   },
   driveEngine: async (id: number) => {
@@ -30,8 +29,7 @@ export const EngineService = {
       );
       return response.data;
     } catch (error) {
-      console.error("Error driving engine:", error);
-      throw error;
+      handleError(error, "Failed to drive engine");
     }
   },
 };
